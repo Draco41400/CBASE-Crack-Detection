@@ -1,3 +1,5 @@
+# Note that this is the old ReadMe file.  I am not the original creator of this AI.
+
 # Concrete-Crack-Detection
 ### UPDATE(5/20/2019): That took longer than expected. I've finished porting over to PyTorch in the `pytorch` branch. I still have to obtain some decent results. Would require some hyperparameter tuning. Feel free to train your own models, shouldn't take longer than a couple of hours on CPU. 
 
