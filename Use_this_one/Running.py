@@ -6,13 +6,12 @@ from Train_CD import Model
 import cv2,sys
 import argparse
 from pathlib import Path
+from PIL import Image
 os.environ['TF_CPP_MIN_LOG_LEVEL'] = '2'
-
-#adding This
-chk_point_dir = r'D:\School Stuff\CBASE\Master_Project\Pre-Built_AI\Use_this_one\Checkpoint'
 
 def break_image(test_image, size):
 
+    # test_image_reshape = np.asarray(test_image)  May not be needed
     h,w= np.shape(test_image)[0],np.shape(test_image)[1]
     broken_image = []
     h_no = h//size
@@ -91,9 +90,9 @@ class Dataset_test:
 def parse_arguments():
     parser = argparse.ArgumentParser(description='Testing Network')
     parser.add_argument('--in_dir',dest='in_dir',type=str,default='temp_images_test')
-    parser.add_argument('--meta_file',dest= 'meta_file',type=str,default=None)
-    parser.add_argument('--CP_dir',dest= r'D:\School Stuff\CBASE\Master_Project\Pre-Built_AI\Use_this_one\Checkpoint',type=str,default=None)
-    parser.add_argument('--save_dir',dest= r'D:\School Stuff\CBASE\Master_Project\Pre-Built_AI\Use_this_one\Output_Images',type=str,default=os.getcwd())
+    parser.add_argument('--meta_file',dest= 'meta_file',type=str,default= r'D:\School Stuff\CBASE\Master_Project\Pre-Built_AI\Use_this_one\meta_file')
+    parser.add_argument('--CP_dir',dest= 'chk_point_dir',type=str,default= r'D:\School Stuff\CBASE\Master_Project\Pre-Built_AI\Use_this_one\meta_file')
+    parser.add_argument('--save_dir', dest = 'save_dir', type=str,default= r'D:\School Stuff\CBASE\Master_Project\Pre-Built_AI\Use_this_one\Output_Images')
     return parser.parse_args()
     ### adding
     print('save_dir = ', save_dir)
@@ -118,17 +117,18 @@ def main(args):
                 sys.exit('Meta File Not found')
             else:
                 ### was imported_meta = tf.train.import_meta_graph(args.meta_file)
-                imported_meta = tf.train.import_meta_graph(r'D:\School Stuff\CBASE\Master_Project\Pre-Built_AI\Use_this_one\Checkpoint\model.meta',
-                                                           r'D:\School Stuff\CBASE\Master_Project\Pre-Built_AI\Use_this_one\Checkpoint\model_complete.meta')
+                imported_meta = tf.train.import_meta_graph(r'D:\School Stuff\CBASE\Master_Project\Pre-Built_AI\Use_this_one\meta_file\model.meta',
+                                                           r'D:\School Stuff\CBASE\Master_Project\Pre-Built_AI\Use_this_one\meta_file\model_complete.meta')
 
             ### had args.chk_point_dir
-            if os.path.isdir(chk_point_dir):
-                imported_meta.restore(sess, tf.train.latest_checkpoint(chk_point_dir))
+            if os.path.isdir(r'D:\School Stuff\CBASE\Master_Project\Pre-Built_AI\Use_this_one\meta_file'):
+                imported_meta.restore(sess, tf.train.latest_checkpoint(r'D:\School Stuff\CBASE\Master_Project\Pre-Built_AI\Use_this_one\meta_file'))
             else:
                 sys.exit("Check Point Directory does not exist")
 
             x = graph.get_operation_by_name("x").outputs[0]
             predictions = graph.get_operation_by_name("predictions").outputs[0]
+            print('x=',x,'pred=',predictions)
 
             #Take one image at a time, pass it through the network and save it
             for counter,image in enumerate(test_images):
@@ -146,6 +146,7 @@ def main(args):
                         a = matrix_pred[i,j]
                         output_image[128*i:128*(i+1),128*j:128*(j+1),:] = 1-a
 
+
                 cropped_image = image[0:h_no*128,0:w_no*128,:]
                 pred_image = np.multiply(output_image,cropped_image)
 
@@ -157,3 +158,8 @@ def main(args):
 
 if __name__ == '__main__':
     main(sys.argv)
+
+test_img = Image.open(r'D:\School Stuff\CBASE\Master_Project\Crack7.jpg')
+test_img2 = Image.open(r'D:\School Stuff\CBASE\Master_Project\temp_images\crack\Image_Crack1053.6r90.png')
+#test_img.show()
+break_image(test_img, 1000)
