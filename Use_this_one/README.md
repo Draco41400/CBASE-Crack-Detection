@@ -1,6 +1,9 @@
 # Note that this is the old ReadMe file.  I am not the original creator of this AI.
-
 # Concrete-Crack-Detection
+# Libraries to install include: numpy, tensorflow, os, cv2, sys, argparse, pathlib (specifically Path), PIL, time, datetime (specifically timedelta), and pickle
+# Most of these libraries come with Python, but some, like numpy and tensorflow, will need to be installed separately. 
+
+# From original creator:
 ### UPDATE(5/20/2019): That took longer than expected. I've finished porting over to PyTorch in the `pytorch` branch. I still have to obtain some decent results. Would require some hyperparameter tuning. Feel free to train your own models, shouldn't take longer than a couple of hours on CPU. 
 
 ### UPDATE(3/23/2019): Currently porting this to PyTorch as I'm out of touch with TensorFlow. Should be done in a week.
