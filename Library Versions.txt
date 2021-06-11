@@ -1,0 +1,7 @@
+Python - 3.7.3
+numpy - 1.18.5
+pickle - 4.0
+tensorflow - 2.3.0
+cv2 - 4.4.0
+argparse - 1.1
+PIL - 7.2.0
